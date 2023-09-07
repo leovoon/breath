@@ -1,26 +1,36 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-
+import { getImage } from "astro:assets";
+import Smile from "../assets/images/smile.svg";
+const { src: image } = await getImage({ src: Smile });
 const { title, description } = Astro.props;
 ---
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href={image} />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
-  <title>{title}</title>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(image, Astro.url)} />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={Astro.url} />
+  <meta property="twitter:title" content={title} />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
   <ViewTransitions />
+  <title>{title}</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css"
   />
 
-  <style>
-    :root {
-      --primary: #8e24aa;
-    }
-  </style>
   <slot />
 </head>
